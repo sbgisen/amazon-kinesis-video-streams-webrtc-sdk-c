@@ -1630,3 +1630,37 @@ CleanUp:
 
     return retStatus;
 }
+
+#define MAX_LINE_LENGTH 4096  // Maximum length of a line
+
+// Function to read a single line from a file and return it as a string
+PCHAR readLineFromFile(PCHAR file_path) {
+    FILE *file = fopen(file_path, "r");
+    if (file == NULL) {
+        DLOGE("[KVS Gstreamer Master] Error opening file: %s", file_path);
+        return NULL;
+    }
+
+    // Allocate memory for the line
+    CHAR *line = (CHAR *)malloc(MAX_LINE_LENGTH);
+    if (line == NULL) {
+        DLOGE("[KVS Gstreamer Master] Memory allocation error");
+        fclose(file);
+        return NULL;
+    }
+
+    // Read one line from the file
+    if (fgets(line, MAX_LINE_LENGTH, file) == NULL) {
+        free(line);  // Free memory in case of failure
+        fclose(file);
+        return NULL;
+    }
+
+    // Remove the newline character (optional)
+    line[strcspn(line, "\n")] = '\0';
+
+    // Close the file
+    fclose(file);
+
+    return line;
+}

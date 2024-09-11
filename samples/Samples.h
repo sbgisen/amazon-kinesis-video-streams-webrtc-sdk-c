@@ -137,6 +137,7 @@ typedef struct {
 
     PCHAR rtspUri;
     UINT32 logLevel;
+    PCHAR gstreamerCommand;
 } SampleConfiguration, *PSampleConfiguration;
 
 typedef struct {
@@ -218,6 +219,7 @@ STATUS getPendingMessageQueueForHash(PStackQueue, UINT64, BOOL, PPendingMessageQ
 STATUS initSignaling(PSampleConfiguration, PCHAR);
 BOOL sampleFilterNetworkInterfaces(UINT64, PCHAR);
 UINT32 setLogLevel();
+PCHAR readLineFromFile(PCHAR);
 
 #ifdef __cplusplus
 }
