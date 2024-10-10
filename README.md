@@ -227,15 +227,15 @@ To use the **Storage for WebRTC** feature, run the same command as above but wit
 ```
 
 #### Sample: kvsWebrtcClientMasterGstSample
-This application can send media from a GStreamer pipeline using test H264/Opus frames, device `autovideosrc` and `autoaudiosrc` input, or a received RTSP stream. It also will playback incoming audio via an `autoaudiosink`. To run:
+This application can send media from a GStreamer pipeline. To run:
 ```
-./samples/kvsWebrtcClientMasterGstSample <channelName> <mediaType> <sourceType>
-```
-Pass the desired media and source type when running the sample. The mediaType can be `audio-video` or `video-only`. To use the **Storage For WebRTC** feature, use `audio-video-storage` as the mediaType. The source type can be `testsrc`, `devicesrc`, or `rtspsrc`. Specify the RTSP URI if using `rtspsrc`:
-```
-./samples/kvsWebrtcClientMasterGstSample <channelName> <mediaType> rtspsrc rtsp://<rtspUri>
+./samples/kvsWebrtcClientMasterGstSample <channelName> <gstreamerCommand>
 ```
 
+For example:
+```
+./samples/kvsWebrtcClientMasterGstSample <channelName> gst-launch-1.0 videotestsrc is-live=TRUE ! queue ! videoconvert ! video/x-raw,width=1280,height=720,framerate=25/1 ! x264enc bframes=0 speed-preset=veryfast bitrate=512 byte-stream=TRUE tune=zerolatency ! video/x-h264,stream-format=byte-stream,alignment=au,profile=baseline ! appsink sync=TRUE emit-signals=TRUE name=appsink-video audiotestsrc is-live=TRUE ! queue leaky=2 max-size-buffers=400 ! audioconvert ! audioresample ! opusenc ! audio/x-opus,rate=48000,channels=2 ! appsink sync=TRUE emit-signals=TRUE name=appsink-audio
+```
 
 #### Sample: kvsWebrtcClientViewer
 This application accepts sample H264/Opus frames and prints them out. To run:

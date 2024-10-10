@@ -137,6 +137,7 @@ typedef struct {
 
     PCHAR rtspUri;
     UINT32 logLevel;
+    CHAR gstreamerCommand[4096];
 } SampleConfiguration, *PSampleConfiguration;
 
 typedef struct {
